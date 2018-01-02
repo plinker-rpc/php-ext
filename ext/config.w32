@@ -1,0 +1,19 @@
+ARG_ENABLE("plinker", "enable plinker", "no");
+
+if (PHP_PLINKER != "no") {
+  EXTENSION("plinker", "plinker.c", null, "-I"+configure_module_dirname);
+  ADD_SOURCES(configure_module_dirname + "/kernel", "main.c memory.c exception.c debug.c backtrace.c object.c array.c string.c fcall.c require.c file.c operators.c math.c concat.c variables.c filter.c iterator.c exit.c time.c", "plinker");
+  /* PCRE is always included on WIN32 */
+  AC_DEFINE("ZEPHIR_USE_PHP_PCRE", 1, "Whether PHP pcre extension is present at compile time");
+  if (PHP_JSON != "no") {
+    ADD_EXTENSION_DEP("plinker", "json");
+    AC_DEFINE("ZEPHIR_USE_PHP_JSON", 1, "Whether PHP json extension is present at compile time");
+  }
+  
+  ADD_SOURCES(configure_module_dirname + "/plinker", "client.zep.c server.zep.c", "plinker");
+	ADD_SOURCES(configure_module_dirname + "/plinker/endpoint", "system.zep.c", "plinker");
+	ADD_SOURCES(configure_module_dirname + "/plinker/lib", "curl.zep.c signer.zep.c", "plinker");
+  ADD_FLAG("CFLAGS_PLINKER", "/D ZEPHIR_RELEASE /Oi /Ot /Oy /Ob2 /Gs /GF /Gy /GL");
+  ADD_FLAG("CFLAGS", "/D ZEPHIR_RELEASE /Oi /Ot /Oy /Ob2 /Gs /GF /Gy /GL");
+  ADD_FLAG("LDFLAGS", "/LTCG");
+}
