@@ -1,17 +1,17 @@
 /*
  +------------------------------------------------------------------------+
- | PHP LXD Extension                                                      |
+ | Plinker PHP Extension                                                  |
  +------------------------------------------------------------------------+
- | Copyright (c)2017-2017 LXC.systems (https://github.com/lxc-systems/lxd)|
+ | Copyright (c)2017-2017 (https://github.com/plinker-rpc/php-ext)        |
  +------------------------------------------------------------------------+
  | This source file is subject to GNU General Public License v2.0 License |
  | that is bundled with this package in the file LICENSE.                 |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
- | to license@lxd.systems so we can send you a copy immediately.          |
+ | to license@cherone.co.uk so we can send you a copy immediately.        |
  +------------------------------------------------------------------------+
- | Authors: Lawrence Cherone <lawrence@lxd.systems>                       |
+ | Authors: Lawrence Cherone <lawrence@cherone.co.uk>                     |
  +------------------------------------------------------------------------+
  */
 
@@ -25,9 +25,6 @@ namespace Plinker\Endpoint;
  */
 final class System
 {    
-    
-    protected $host_os;
-
     /**
      * Class construct.
      *
@@ -37,7 +34,7 @@ final class System
      */
     public function __construct(array! config) -> void
     {
-        let this->host_os = trim(strtoupper(strstr(php_uname(), " ", true)));
+        
     }
 
     /**
@@ -46,7 +43,7 @@ final class System
      * @param  string $path
      * @return int
      */
-    public function disk_space(string! path = "/")
+    public function disk_space(string! path = "/") -> int
     {
         var ds = disk_total_space(path),
             df = disk_free_space(path);
@@ -60,8 +57,38 @@ final class System
      * @param  string $path
      * @return int
      */
-    public function total_disk_space(string! path = "/")
+    public function total_disk_space(string! path = "/") -> int
     {
         return disk_total_space(path);
+    }
+    
+    /**
+     * Get current user
+     *
+     * @return string
+     */
+    public function whoami() -> string
+    {
+        return shell_exec("whoami");
+    }
+    
+    /**
+     * Execute command
+     *
+     * @return string
+     */
+    public function exec(string! cmd) -> string
+    {
+        return shell_exec(cmd);
+    }
+    
+    /**
+     * Execute command
+     *
+     * @return string
+     */
+    public function test() -> string
+    {
+        return "tesing";
     }
 }

@@ -1,17 +1,17 @@
 /*
  +------------------------------------------------------------------------+
- | PHP LXD Extension                                                      |
+ | Plinker PHP Extension                                                  |
  +------------------------------------------------------------------------+
- | Copyright (c)2017-2017 LXC.systems (https://github.com/lxc-systems/lxd)|
+ | Copyright (c)2017-2017 (https://github.com/plinker-rpc/php-ext)        |
  +------------------------------------------------------------------------+
  | This source file is subject to GNU General Public License v2.0 License |
  | that is bundled with this package in the file LICENSE.                 |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
- | to license@lxd.systems so we can send you a copy immediately.          |
+ | to license@cherone.co.uk so we can send you a copy immediately.        |
  +------------------------------------------------------------------------+
- | Authors: Lawrence Cherone <lawrence@lxd.systems>                       |
+ | Authors: Lawrence Cherone <lawrence@cherone.co.uk>                     |
  +------------------------------------------------------------------------+
  */
 
@@ -29,12 +29,7 @@ use Plinker\Lib\Signer;
 
 final class Client
 {
-
-    private endpoint;
     private component;
-    private publicKey;
-    private privateKey;
-    private encrypt;
     private response;
 
     protected config;
@@ -55,13 +50,12 @@ final class Client
         if !isset this->config["timeout"] || !is_numeric(this->config["timeout"]) {
             let this->config["timeout"] = 10;
         }
-
     }
 
     /**
      *
      */
-    public function __get(string! method)
+    public function __get(string! method) -> <Plinker\Client>
     {
         let this->component = method;
 
@@ -74,7 +68,7 @@ final class Client
      * @param string $action
      * @param array  $params
      */
-    public function __call(string! action, array! params)
+    public function __call(string! action, array! params) -> string
     {
         if !is_scalar(action) {
             throw new \Exception("Method name has no scalar value");

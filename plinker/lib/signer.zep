@@ -1,17 +1,17 @@
 /*
  +------------------------------------------------------------------------+
- | PHP LXD Extension                                                      |
+ | Plinker PHP Extension                                                  |
  +------------------------------------------------------------------------+
- | Copyright (c)2017-2017 LXC.systems (https://github.com/lxc-systems/lxd)|
+ | Copyright (c)2017-2017 (https://github.com/plinker-rpc/php-ext)        |
  +------------------------------------------------------------------------+
  | This source file is subject to GNU General Public License v2.0 License |
  | that is bundled with this package in the file LICENSE.                 |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
- | to license@lxd.systems so we can send you a copy immediately.          |
+ | to license@cherone.co.uk so we can send you a copy immediately.        |
  +------------------------------------------------------------------------+
- | Authors: Lawrence Cherone <lawrence@lxd.systems>                       |
+ | Authors: Lawrence Cherone <lawrence@cherone.co.uk>                     |
  +------------------------------------------------------------------------+
  */
 
@@ -53,7 +53,7 @@ final class Signer
 
         return base64_encode(iv . hash . ciphertext);
     }
-
+    
     /**
      *
      */
@@ -72,7 +72,7 @@ final class Signer
 
         return openssl_decrypt(ciphertext, method, key, OPENSSL_RAW_DATA, iv);
     }
-
+    
     /**
      *
      */
@@ -94,13 +94,13 @@ final class Signer
     public function decode(array! data) -> string|null
     {
         let data["data"] = this->decrypt(data["data"], this->config["secret"]);
-
+        
         //
-        if (hash_hmac(
+        if hash_hmac(
             "sha256",
             data["data"],
             this->config["secret"]
-        ) == data["token"]) {
+        ) == data["token"] {
             return unserialize(data["data"]);
         } else {
             return null;

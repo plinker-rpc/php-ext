@@ -1,17 +1,17 @@
 /*
  +------------------------------------------------------------------------+
- | PHP LXD Extension                                                      |
+ | Plinker PHP Extension                                                  |
  +------------------------------------------------------------------------+
- | Copyright (c)2017-2017 LXC.systems (https://github.com/lxc-systems/lxd)|
+ | Copyright (c)2017-2017 (https://github.com/plinker-rpc/php-ext)        |
  +------------------------------------------------------------------------+
  | This source file is subject to GNU General Public License v2.0 License |
  | that is bundled with this package in the file LICENSE.                 |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
- | to license@lxd.systems so we can send you a copy immediately.          |
+ | to license@cherone.co.uk so we can send you a copy immediately.        |
  +------------------------------------------------------------------------+
- | Authors: Lawrence Cherone <lawrence@lxd.systems>                       |
+ | Authors: Lawrence Cherone <lawrence@cherone.co.uk>                     |
  +------------------------------------------------------------------------+
  */
 
@@ -24,16 +24,13 @@ function lxd_connect(string! url, string! secret, array! options = []) {
 
 namespace Plinker;
 
-use Plinker\Lib\Curl;
 use Plinker\Lib\Signer;
 
 final class Server
 {
-
     protected post;
     protected signer;
     protected config;
-    protected curl;
 
     /**
      *
@@ -55,7 +52,7 @@ final class Server
     /**
      *
      */
-    public function listen()
+    public function listen() -> void
     {
         let this->post = file_get_contents("php://input");
         let this->post = json_decode(this->post, true);
@@ -63,18 +60,16 @@ final class Server
         header("Content-Type: text/plain; charset=utf-8");
 
         // check allowed ips
-        if (
-            !empty(this->config["allowed_ips"]) &&
-            !in_array(_SERVER["REMOTE_ADDR"], this->config["allowed_ips"])
-        ) {
+        if !empty this->config["allowed_ips"] &&
+           !in_array(_SERVER["REMOTE_ADDR"], this->config["allowed_ips"]) {
             exit(serialize([
                 "error" : "IP not in allowed list ("._SERVER["REMOTE_ADDR"].")",
                 "code" : 403
             ]));
         }
-
+        
         // check header token matches data token
-        if (_SERVER["HTTP_PLINKER"] != this->post["token"]) {
+        if _SERVER["HTTP_PLINKER"] != this->post["token"] {
             exit(serialize([
                 "error" : "Plinker token mismatch",
                 "code" : 422
@@ -90,7 +85,7 @@ final class Server
         let this->post = this->signer->decode(this->post);
 
         // could not decode payload
-        if (this->post === null) {
+        if this->post === null {
             exit(serialize([
                 "error" : "Failed to decode payload, check secret",
                 "code" : 422
@@ -103,7 +98,7 @@ final class Server
         var response;
 
         // component is in classes config
-        if (array_key_exists(this->post["component"], this->config["classes"])) {
+        if array_key_exists(this->post["component"], this->config["classes"]) {
             //
             let ns = this->config["classes"][this->post["component"]];
             
@@ -135,7 +130,8 @@ final class Server
 
         // component is plinker endpoint
         let ns = "\\Plinker\\Endpoint\\".this->post["component"];
-        if (class_exists(ns)) {
+        
+        if class_exists(ns) {
             //
             let response = this->execute(ns, action);
         } else {
@@ -144,16 +140,16 @@ final class Server
 
         exit(serialize(response));
     }
-
+    
     /**
      *
      */
-    private function execute(ns, action)
+    private function execute(ns, action) -> string
     {
         var response  = null, component;
         let component = new {ns}(this->config+this->post);
 
-        if (method_exists(component, action)) {
+        if method_exists(component, action) {
             let response = call_user_func_array(
                 [
                     component,
@@ -162,7 +158,7 @@ final class Server
                 this->post["params"]
             );
         } else {
-            let response = "Component action not implemented";
+            let response = "Component action (".action.") not implemented in: ".ns;
         }
         
         return response;

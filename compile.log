@@ -1,10 +1,6 @@
-libtool: compile:  gcc -I. -I/home/lozza/php_inbuilt/plinker/ext -DPHP_ATOM_INC -I/home/lozza/php_inbuilt/plinker/ext/include -I/home/lozza/php_inbuilt/plinker/ext/main -I/home/lozza/php_inbuilt/plinker/ext -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib -DHAVE_CONFIG_H -O2 -fvisibility=hidden -Wparentheses -flto -DZEPHIR_RELEASE=1 -c /home/lozza/php_inbuilt/plinker/ext/plinker/lib/signer.zep.c  -fPIC -DPIC -o plinker/lib/.libs/signer.o
-libtool: link: rm -fr  .libs/plinker.la .libs/plinker.lai .libs/plinker.so
-libtool: link: gcc -shared  -fPIC -DPIC  .libs/plinker.o kernel/.libs/main.o kernel/.libs/memory.o kernel/.libs/exception.o kernel/.libs/debug.o kernel/.libs/backtrace.o kernel/.libs/object.o kernel/.libs/array.o kernel/.libs/string.o kernel/.libs/fcall.o kernel/.libs/require.o kernel/.libs/file.o kernel/.libs/operators.o kernel/.libs/math.o kernel/.libs/concat.o kernel/.libs/variables.o kernel/.libs/filter.o kernel/.libs/iterator.o kernel/.libs/time.o kernel/.libs/exit.o plinker/.libs/client.o plinker/endpoint/.libs/system.o plinker/lib/.libs/curl.o plinker/lib/.libs/signer.o plinker/.libs/server.o    -O2 -flto   -Wl,-soname -Wl,plinker.so -o .libs/plinker.so
-libtool: link: ( cd ".libs" && rm -f "plinker.la" && ln -s "../plinker.la" "plinker.la" )
 libtool: install: cp ./.libs/plinker.so /home/lozza/php_inbuilt/plinker/ext/modules/plinker.so
 libtool: install: cp ./.libs/plinker.lai /home/lozza/php_inbuilt/plinker/ext/modules/plinker.la
-libtool: finish: PATH="/home/lozza/bin:/home/lozza/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/sbin" ldconfig -n /home/lozza/php_inbuilt/plinker/ext/modules
+libtool: finish: PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/sbin" ldconfig -n /home/lozza/php_inbuilt/plinker/ext/modules
 ----------------------------------------------------------------------
 Libraries have been installed in:
    /home/lozza/php_inbuilt/plinker/ext/modules
