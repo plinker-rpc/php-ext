@@ -104,51 +104,6 @@ final class Client
         let this->response = this->curl->post(this->config["server"], payload, [
             "PLINKER: ".payload["token"]
         ]);
-        
-        /*
-        // check response is a serialized string
-        if (@unserialize(this->response->body) === false) {
-            throw new \Exception("Could not unserialize response: ".$this->response->body);
-        }
-
-        // initial unserialize response body
-        $this->response->body = unserialize($this->response->body);
-
-        // decode response
-        $this->response->data = $this->signer->decode(
-            $this->response->body
-        );
-
-        // verify response packet timing validity
-        $this->response->data["packet_time"] = microtime(true) - $this->response->body["time"];
-        if ($this->response->data["packet_time"] >= 1) {
-            throw new \Exception("Response timing packet check failed");
-        }
-
-        // verify data timing validity
-        $this->response->data["data_time"] = (microtime(true) - $this->response->data["time"]);
-        if ($this->response->data["data_time"] >= 1) {
-            throw new \Exception("Response timing data check failed");
-        }
-
-        // decode response data
-        if (is_string($this->response->data["response"])) {
-            // empty data response
-            if (empty($this->response->data["response"])) {
-                return "";
-            }
-            // response should be a serialized string
-            if (@unserialize($this->response->data["response"]) === false) {
-                throw new \Exception("Could not unserialize response: ".$this->response->data["response"]);
-            }
-            $this->response->data["response"] = unserialize($this->response->data["response"]);
-        }
-
-        // check for errors
-        if (is_array($this->response->data["response"]) && !empty($this->response->data["response"]["error"])) {
-            throw new \Exception(ucfirst($this->response->data["response"]["error"]));
-        }
-        */
 
         // unserialize data
         return unserialize(this->response);

@@ -19,10 +19,11 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/file.h"
-#include "kernel/string.h"
 #include "kernel/fcall.h"
+#include "kernel/string.h"
 #include "kernel/exit.h"
 #include "kernel/concat.h"
+#include "kernel/require.h"
 
 
 ZEPHIR_INIT_CLASS(Plinker_Server) {
@@ -104,11 +105,11 @@ PHP_METHOD(Plinker_Server, __construct) {
  */
 PHP_METHOD(Plinker_Server, listen) {
 
-	zval _11$$3, _19$$4, _28$$6, _39$$8, _45$$9;
-	zend_bool _7;
-	zephir_fcall_cache_entry *_15 = NULL, *_49 = NULL;
+	zval _13$$3, _21$$4, _30$$6, _41$$8, _45$$9;
+	zend_bool _9;
+	zephir_fcall_cache_entry *_17 = NULL, *_49 = NULL;
+	zval __$true, *_SERVER, _0, _1, _2, _3, _4, _5, _6, _7, _8, _10, _11, _12, _18, _19, _20, _23, _26, _27, _28, _29, ns, action, _32, response, _33, _34, _35, _36, _51, _52, _53, _14$$3, _15$$3, _16$$3, _22$$4, _24$$5, _25$$5, _31$$6, _37$$7, _38$$7, _39$$7, _40$$7, _43$$7, _44$$7, _47$$7, _48$$7, _50$$7, _42$$8, _46$$9;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval __$true, *_SERVER, _0, _1, _2, _3, _4, _5, _6, _8, _9, _10, _16, _17, _18, _21, _24, _25, _26, _27, ns, action, _30, response, _31, _32, _33, _34, _51, _52, _53, _12$$3, _13$$3, _14$$3, _20$$4, _22$$5, _23$$5, _29$$6, _35$$7, _36$$7, _37$$7, _38$$7, src$$7, _41$$7, _42$$7, _43$$7, _44$$7, _47$$7, _48$$7, _50$$7, _40$$8, _46$$9;
 	zval *this_ptr = getThis();
 
 	ZVAL_BOOL(&__$true, 1);
@@ -119,53 +120,52 @@ PHP_METHOD(Plinker_Server, listen) {
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_7);
 	ZVAL_UNDEF(&_8);
-	ZVAL_UNDEF(&_9);
 	ZVAL_UNDEF(&_10);
-	ZVAL_UNDEF(&_16);
-	ZVAL_UNDEF(&_17);
+	ZVAL_UNDEF(&_11);
+	ZVAL_UNDEF(&_12);
 	ZVAL_UNDEF(&_18);
-	ZVAL_UNDEF(&_21);
-	ZVAL_UNDEF(&_24);
-	ZVAL_UNDEF(&_25);
+	ZVAL_UNDEF(&_19);
+	ZVAL_UNDEF(&_20);
+	ZVAL_UNDEF(&_23);
 	ZVAL_UNDEF(&_26);
 	ZVAL_UNDEF(&_27);
+	ZVAL_UNDEF(&_28);
+	ZVAL_UNDEF(&_29);
 	ZVAL_UNDEF(&ns);
 	ZVAL_UNDEF(&action);
-	ZVAL_UNDEF(&_30);
-	ZVAL_UNDEF(&response);
-	ZVAL_UNDEF(&_31);
 	ZVAL_UNDEF(&_32);
+	ZVAL_UNDEF(&response);
 	ZVAL_UNDEF(&_33);
 	ZVAL_UNDEF(&_34);
+	ZVAL_UNDEF(&_35);
+	ZVAL_UNDEF(&_36);
 	ZVAL_UNDEF(&_51);
 	ZVAL_UNDEF(&_52);
 	ZVAL_UNDEF(&_53);
-	ZVAL_UNDEF(&_12$$3);
-	ZVAL_UNDEF(&_13$$3);
 	ZVAL_UNDEF(&_14$$3);
-	ZVAL_UNDEF(&_20$$4);
-	ZVAL_UNDEF(&_22$$5);
-	ZVAL_UNDEF(&_23$$5);
-	ZVAL_UNDEF(&_29$$6);
-	ZVAL_UNDEF(&_35$$7);
-	ZVAL_UNDEF(&_36$$7);
+	ZVAL_UNDEF(&_15$$3);
+	ZVAL_UNDEF(&_16$$3);
+	ZVAL_UNDEF(&_22$$4);
+	ZVAL_UNDEF(&_24$$5);
+	ZVAL_UNDEF(&_25$$5);
+	ZVAL_UNDEF(&_31$$6);
 	ZVAL_UNDEF(&_37$$7);
 	ZVAL_UNDEF(&_38$$7);
-	ZVAL_UNDEF(&src$$7);
-	ZVAL_UNDEF(&_41$$7);
-	ZVAL_UNDEF(&_42$$7);
+	ZVAL_UNDEF(&_39$$7);
+	ZVAL_UNDEF(&_40$$7);
 	ZVAL_UNDEF(&_43$$7);
 	ZVAL_UNDEF(&_44$$7);
 	ZVAL_UNDEF(&_47$$7);
 	ZVAL_UNDEF(&_48$$7);
 	ZVAL_UNDEF(&_50$$7);
-	ZVAL_UNDEF(&_40$$8);
+	ZVAL_UNDEF(&_42$$8);
 	ZVAL_UNDEF(&_46$$9);
-	ZVAL_UNDEF(&_11$$3);
-	ZVAL_UNDEF(&_19$$4);
-	ZVAL_UNDEF(&_28$$6);
-	ZVAL_UNDEF(&_39$$8);
+	ZVAL_UNDEF(&_13$$3);
+	ZVAL_UNDEF(&_21$$4);
+	ZVAL_UNDEF(&_30$$6);
+	ZVAL_UNDEF(&_41$$8);
 	ZVAL_UNDEF(&_45$$9);
 
 	ZEPHIR_MM_GROW();
@@ -180,106 +180,107 @@ PHP_METHOD(Plinker_Server, listen) {
 	ZVAL_STRING(&_1, "php://input");
 	zephir_file_get_contents(&_0, &_1 TSRMLS_CC);
 	zephir_update_property_zval(this_ptr, SL("post"), &_0);
-	ZEPHIR_INIT_VAR(&_2);
-	zephir_read_property(&_3, this_ptr, SL("post"), PH_NOISY_CC | PH_READONLY);
-	zephir_json_decode(&_2, &_3, zephir_get_intval(&__$true) );
-	zephir_update_property_zval(this_ptr, SL("post"), &_2);
+	zephir_read_property(&_2, this_ptr, SL("post"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_FUNCTION(&_3, "gzinflate", NULL, 26, &_2);
+	zephir_check_call_status();
+	zephir_update_property_zval(this_ptr, SL("post"), &_3);
 	ZEPHIR_INIT_VAR(&_4);
-	ZVAL_STRING(&_4, "Content-Type: text/plain; charset=utf-8");
-	ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 28, &_4);
+	zephir_read_property(&_5, this_ptr, SL("post"), PH_NOISY_CC | PH_READONLY);
+	zephir_json_decode(&_4, &_5, zephir_get_intval(&__$true) );
+	zephir_update_property_zval(this_ptr, SL("post"), &_4);
+	ZEPHIR_INIT_VAR(&_6);
+	ZVAL_STRING(&_6, "Content-Type: text/plain; charset=utf-8");
+	ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 27, &_6);
 	zephir_check_call_status();
-	zephir_read_property(&_5, this_ptr, SL("config"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_6, &_5, SL("allowed_ips"), PH_NOISY | PH_READONLY, "plinker/server.zep", 63 TSRMLS_CC);
-	_7 = !(ZEPHIR_IS_EMPTY(&_6));
-	if (_7) {
-		zephir_array_fetch_string(&_8, _SERVER, SL("REMOTE_ADDR"), PH_NOISY | PH_READONLY, "plinker/server.zep", 64 TSRMLS_CC);
-		zephir_read_property(&_9, this_ptr, SL("config"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch_string(&_10, &_9, SL("allowed_ips"), PH_NOISY | PH_READONLY, "plinker/server.zep", 64 TSRMLS_CC);
-		_7 = !(zephir_fast_in_array(&_8, &_10 TSRMLS_CC));
+	zephir_read_property(&_7, this_ptr, SL("config"), PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch_string(&_8, &_7, SL("allowed_ips"), PH_NOISY | PH_READONLY, "plinker/server.zep", 64 TSRMLS_CC);
+	_9 = !(ZEPHIR_IS_EMPTY(&_8));
+	if (_9) {
+		zephir_array_fetch_string(&_10, _SERVER, SL("REMOTE_ADDR"), PH_NOISY | PH_READONLY, "plinker/server.zep", 65 TSRMLS_CC);
+		zephir_read_property(&_11, this_ptr, SL("config"), PH_NOISY_CC | PH_READONLY);
+		zephir_array_fetch_string(&_12, &_11, SL("allowed_ips"), PH_NOISY | PH_READONLY, "plinker/server.zep", 65 TSRMLS_CC);
+		_9 = !(zephir_fast_in_array(&_10, &_12 TSRMLS_CC));
 	}
-	if (_7) {
-		ZEPHIR_INIT_VAR(&_11$$3);
-		zephir_create_array(&_11$$3, 2, 0 TSRMLS_CC);
-		zephir_array_fetch_string(&_12$$3, _SERVER, SL("REMOTE_ADDR"), PH_NOISY | PH_READONLY, "plinker/server.zep", 66 TSRMLS_CC);
+	if (_9) {
 		ZEPHIR_INIT_VAR(&_13$$3);
-		ZEPHIR_CONCAT_SVS(&_13$$3, "IP not in allowed list (", &_12$$3, ")");
-		zephir_array_update_string(&_11$$3, SL("error"), &_13$$3, PH_COPY | PH_SEPARATE);
-		add_assoc_long_ex(&_11$$3, SL("code"), 403);
-		ZEPHIR_CALL_FUNCTION(&_14$$3, "serialize", &_15, 17, &_11$$3);
+		zephir_create_array(&_13$$3, 2, 0 TSRMLS_CC);
+		zephir_array_fetch_string(&_14$$3, _SERVER, SL("REMOTE_ADDR"), PH_NOISY | PH_READONLY, "plinker/server.zep", 67 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(&_15$$3);
+		ZEPHIR_CONCAT_SVS(&_15$$3, "IP not in allowed list (", &_14$$3, ")");
+		zephir_array_update_string(&_13$$3, SL("error"), &_15$$3, PH_COPY | PH_SEPARATE);
+		add_assoc_long_ex(&_13$$3, SL("code"), 403);
+		ZEPHIR_CALL_FUNCTION(&_16$$3, "serialize", &_17, 14, &_13$$3);
 		zephir_check_call_status();
 		ZEPHIR_MM_RESTORE();
-		zephir_exit(&_14$$3);
+		zephir_exit(&_16$$3);
 	}
-	zephir_array_fetch_string(&_16, _SERVER, SL("HTTP_PLINKER"), PH_NOISY | PH_READONLY, "plinker/server.zep", 72 TSRMLS_CC);
-	zephir_read_property(&_17, this_ptr, SL("post"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_18, &_17, SL("token"), PH_NOISY | PH_READONLY, "plinker/server.zep", 72 TSRMLS_CC);
-	if (!ZEPHIR_IS_EQUAL(&_16, &_18)) {
-		ZEPHIR_INIT_VAR(&_19$$4);
-		zephir_create_array(&_19$$4, 2, 0 TSRMLS_CC);
-		add_assoc_stringl_ex(&_19$$4, SL("error"), SL("Plinker token mismatch"));
-		add_assoc_long_ex(&_19$$4, SL("code"), 422);
-		ZEPHIR_CALL_FUNCTION(&_20$$4, "serialize", &_15, 17, &_19$$4);
+	zephir_array_fetch_string(&_18, _SERVER, SL("HTTP_PLINKER"), PH_NOISY | PH_READONLY, "plinker/server.zep", 73 TSRMLS_CC);
+	zephir_read_property(&_19, this_ptr, SL("post"), PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch_string(&_20, &_19, SL("token"), PH_NOISY | PH_READONLY, "plinker/server.zep", 73 TSRMLS_CC);
+	if (!ZEPHIR_IS_EQUAL(&_18, &_20)) {
+		ZEPHIR_INIT_VAR(&_21$$4);
+		zephir_create_array(&_21$$4, 2, 0 TSRMLS_CC);
+		add_assoc_stringl_ex(&_21$$4, SL("error"), SL("Plinker token mismatch"));
+		add_assoc_long_ex(&_21$$4, SL("code"), 422);
+		ZEPHIR_CALL_FUNCTION(&_22$$4, "serialize", &_17, 14, &_21$$4);
 		zephir_check_call_status();
 		ZEPHIR_MM_RESTORE();
-		zephir_exit(&_20$$4);
+		zephir_exit(&_22$$4);
 	}
-	ZEPHIR_OBS_VAR(&_21);
-	zephir_read_property(&_21, this_ptr, SL("signer"), PH_NOISY_CC);
-	if (!(zephir_is_true(&_21))) {
-		ZEPHIR_INIT_VAR(&_22$$5);
-		object_init_ex(&_22$$5, plinker_lib_signer_ce);
-		zephir_read_property(&_23$$5, this_ptr, SL("config"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(NULL, &_22$$5, "__construct", NULL, 2, &_23$$5);
+	ZEPHIR_OBS_VAR(&_23);
+	zephir_read_property(&_23, this_ptr, SL("signer"), PH_NOISY_CC);
+	if (!(zephir_is_true(&_23))) {
+		ZEPHIR_INIT_VAR(&_24$$5);
+		object_init_ex(&_24$$5, plinker_lib_signer_ce);
+		zephir_read_property(&_25$$5, this_ptr, SL("config"), PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_CALL_METHOD(NULL, &_24$$5, "__construct", NULL, 2, &_25$$5);
 		zephir_check_call_status();
-		zephir_update_property_zval(this_ptr, SL("signer"), &_22$$5);
+		zephir_update_property_zval(this_ptr, SL("signer"), &_24$$5);
 	}
-	zephir_read_property(&_24, this_ptr, SL("signer"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_26, this_ptr, SL("post"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_25, &_24, "decode", NULL, 0, &_26);
+	zephir_read_property(&_26, this_ptr, SL("signer"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_28, this_ptr, SL("post"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&_27, &_26, "decode", NULL, 0, &_28);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("post"), &_25);
-	zephir_read_property(&_27, this_ptr, SL("post"), PH_NOISY_CC | PH_READONLY);
-	if (Z_TYPE_P(&_27) == IS_NULL) {
-		ZEPHIR_INIT_VAR(&_28$$6);
-		zephir_create_array(&_28$$6, 2, 0 TSRMLS_CC);
-		add_assoc_stringl_ex(&_28$$6, SL("error"), SL("Failed to decode payload, check secret"));
-		add_assoc_long_ex(&_28$$6, SL("code"), 422);
-		ZEPHIR_CALL_FUNCTION(&_29$$6, "serialize", &_15, 17, &_28$$6);
+	zephir_update_property_zval(this_ptr, SL("post"), &_27);
+	zephir_read_property(&_29, this_ptr, SL("post"), PH_NOISY_CC | PH_READONLY);
+	if (Z_TYPE_P(&_29) == IS_NULL) {
+		ZEPHIR_INIT_VAR(&_30$$6);
+		zephir_create_array(&_30$$6, 2, 0 TSRMLS_CC);
+		add_assoc_stringl_ex(&_30$$6, SL("error"), SL("Failed to decode payload, check secret"));
+		add_assoc_long_ex(&_30$$6, SL("code"), 422);
+		ZEPHIR_CALL_FUNCTION(&_31$$6, "serialize", &_17, 14, &_30$$6);
 		zephir_check_call_status();
 		ZEPHIR_MM_RESTORE();
-		zephir_exit(&_29$$6);
+		zephir_exit(&_31$$6);
 	}
-	zephir_read_property(&_30, this_ptr, SL("post"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_32, this_ptr, SL("post"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_OBS_VAR(&action);
-	zephir_array_fetch_string(&action, &_30, SL("action"), PH_NOISY, "plinker/server.zep", 97 TSRMLS_CC);
-	zephir_read_property(&_31, this_ptr, SL("post"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_32, &_31, SL("component"), PH_NOISY | PH_READONLY, "plinker/server.zep", 101 TSRMLS_CC);
-	zephir_read_property(&_33, this_ptr, SL("config"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_34, &_33, SL("classes"), PH_NOISY | PH_READONLY, "plinker/server.zep", 101 TSRMLS_CC);
-	if (zephir_array_key_exists(&_34, &_32 TSRMLS_CC)) {
-		zephir_read_property(&_35$$7, this_ptr, SL("config"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch_string(&_36$$7, &_35$$7, SL("classes"), PH_NOISY | PH_READONLY, "plinker/server.zep", 103 TSRMLS_CC);
+	zephir_array_fetch_string(&action, &_32, SL("action"), PH_NOISY, "plinker/server.zep", 98 TSRMLS_CC);
+	zephir_read_property(&_33, this_ptr, SL("post"), PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch_string(&_34, &_33, SL("component"), PH_NOISY | PH_READONLY, "plinker/server.zep", 102 TSRMLS_CC);
+	zephir_read_property(&_35, this_ptr, SL("config"), PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch_string(&_36, &_35, SL("classes"), PH_NOISY | PH_READONLY, "plinker/server.zep", 102 TSRMLS_CC);
+	if (zephir_array_key_exists(&_36, &_34 TSRMLS_CC)) {
+		zephir_read_property(&_37$$7, this_ptr, SL("config"), PH_NOISY_CC | PH_READONLY);
+		zephir_array_fetch_string(&_38$$7, &_37$$7, SL("classes"), PH_NOISY | PH_READONLY, "plinker/server.zep", 104 TSRMLS_CC);
 		ZEPHIR_OBS_VAR(&ns);
-		zephir_read_property(&_37$$7, this_ptr, SL("post"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_OBS_VAR(&_38$$7);
-		zephir_array_fetch_string(&_38$$7, &_37$$7, SL("component"), PH_NOISY, "plinker/server.zep", 103 TSRMLS_CC);
-		zephir_array_fetch(&ns, &_36$$7, &_38$$7, PH_NOISY, "plinker/server.zep", 103 TSRMLS_CC);
+		zephir_read_property(&_39$$7, this_ptr, SL("post"), PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_OBS_VAR(&_40$$7);
+		zephir_array_fetch_string(&_40$$7, &_39$$7, SL("component"), PH_NOISY, "plinker/server.zep", 104 TSRMLS_CC);
+		zephir_array_fetch(&ns, &_38$$7, &_40$$7, PH_NOISY, "plinker/server.zep", 104 TSRMLS_CC);
 		if (!((zephir_file_exists(&ns TSRMLS_CC) == SUCCESS))) {
-			ZEPHIR_INIT_VAR(&_39$$8);
-			zephir_create_array(&_39$$8, 2, 0 TSRMLS_CC);
-			add_assoc_stringl_ex(&_39$$8, SL("error"), SL("Component class not found"));
-			add_assoc_long_ex(&_39$$8, SL("code"), 422);
-			ZEPHIR_CALL_FUNCTION(&_40$$8, "serialize", &_15, 17, &_39$$8);
+			ZEPHIR_INIT_VAR(&_41$$8);
+			zephir_create_array(&_41$$8, 2, 0 TSRMLS_CC);
+			add_assoc_stringl_ex(&_41$$8, SL("error"), SL("Component class not found"));
+			add_assoc_long_ex(&_41$$8, SL("code"), 422);
+			ZEPHIR_CALL_FUNCTION(&_42$$8, "serialize", &_17, 14, &_41$$8);
 			zephir_check_call_status();
 			ZEPHIR_MM_RESTORE();
-			zephir_exit(&_40$$8);
+			zephir_exit(&_42$$8);
 		}
-		ZEPHIR_INIT_VAR(&src$$7);
-		zephir_file_get_contents(&src$$7, &ns TSRMLS_CC);
-		ZEPHIR_INIT_VAR(&_41$$7);
-		ZEPHIR_INIT_VAR(&_42$$7);
-		ZEPHIR_CONCAT_SV(&_42$$7, "?>", &src$$7);
-		zephir_eval_php(&_42$$7, &_41$$7, "/home/lozza/php_inbuilt/plinker/plinker/server.zep:115" TSRMLS_CC);
+		if (zephir_require_zval(&ns TSRMLS_CC) == FAILURE) {
+			RETURN_MM_NULL();
+		}
 		zephir_read_property(&_43$$7, this_ptr, SL("post"), PH_NOISY_CC | PH_READONLY);
 		zephir_array_fetch_string(&_44$$7, &_43$$7, SL("component"), PH_NOISY | PH_READONLY, "plinker/server.zep", 118 TSRMLS_CC);
 		if (!(zephir_class_exists(&_44$$7, 1 TSRMLS_CC))) {
@@ -287,16 +288,16 @@ PHP_METHOD(Plinker_Server, listen) {
 			zephir_create_array(&_45$$9, 2, 0 TSRMLS_CC);
 			add_assoc_stringl_ex(&_45$$9, SL("error"), SL("Component class name invalid"));
 			add_assoc_long_ex(&_45$$9, SL("code"), 422);
-			ZEPHIR_CALL_FUNCTION(&_46$$9, "serialize", &_15, 17, &_45$$9);
+			ZEPHIR_CALL_FUNCTION(&_46$$9, "serialize", &_17, 14, &_45$$9);
 			zephir_check_call_status();
 			ZEPHIR_MM_RESTORE();
 			zephir_exit(&_46$$9);
 		}
 		zephir_read_property(&_47$$7, this_ptr, SL("post"), PH_NOISY_CC | PH_READONLY);
 		zephir_array_fetch_string(&_48$$7, &_47$$7, SL("component"), PH_NOISY | PH_READONLY, "plinker/server.zep", 126 TSRMLS_CC);
-		ZEPHIR_CALL_METHOD(&response, this_ptr, "execute", &_49, 29, &_48$$7, &action);
+		ZEPHIR_CALL_METHOD(&response, this_ptr, "execute", &_49, 28, &_48$$7, &action);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&_50$$7, "serialize", &_15, 17, &response);
+		ZEPHIR_CALL_FUNCTION(&_50$$7, "serialize", &_17, 14, &response);
 		zephir_check_call_status();
 		ZEPHIR_MM_RESTORE();
 		zephir_exit(&_50$$7);
@@ -306,13 +307,13 @@ PHP_METHOD(Plinker_Server, listen) {
 	ZEPHIR_INIT_NVAR(&ns);
 	ZEPHIR_CONCAT_SV(&ns, "\\Plinker\\Endpoint\\", &_52);
 	if (zephir_class_exists(&ns, 1 TSRMLS_CC)) {
-		ZEPHIR_CALL_METHOD(&response, this_ptr, "execute", &_49, 29, &ns, &action);
+		ZEPHIR_CALL_METHOD(&response, this_ptr, "execute", &_49, 28, &ns, &action);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_NVAR(&response);
 		ZVAL_STRING(&response, "Component not implemented");
 	}
-	ZEPHIR_CALL_FUNCTION(&_53, "serialize", &_15, 17, &response);
+	ZEPHIR_CALL_FUNCTION(&_53, "serialize", &_17, 14, &response);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 	zephir_exit(&_53);

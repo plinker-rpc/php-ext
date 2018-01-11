@@ -21,7 +21,6 @@ final class Signer
 {
 
     private config;
-    private options;
 
     /**
      *
@@ -44,12 +43,12 @@ final class Signer
      */
     private function encrypt(string! plaintext, string! password) -> string
     {
-        var method = "AES-256-CBC";
-        var key = hash("sha256", password, true);
-        var iv = openssl_random_pseudo_bytes(16);
-
-        var ciphertext = openssl_encrypt(plaintext, method, key, OPENSSL_RAW_DATA, iv);
-        var hash = hash_hmac("sha256", ciphertext, key, true);
+        string method     = "AES-256-CBC";
+        string key        = (string) hash("sha256", password, true);
+        string iv         = (string) openssl_random_pseudo_bytes(16);
+        string ciphertext = (string) openssl_encrypt(plaintext, method, key, OPENSSL_RAW_DATA, iv);
+        
+        string hash = (string) hash_hmac("sha256", ciphertext, key, true);
 
         return base64_encode(iv . hash . ciphertext);
     }
@@ -59,14 +58,15 @@ final class Signer
      */
     private function decrypt(string! ciphertext, string! password) -> string|null
     {
-        var method = "AES-256-CBC";
-        let ciphertext = base64_decode(ciphertext);
-        var iv = substr(ciphertext, 0, 16);
-        var hash = substr(ciphertext, 16, 32);
-        var ciphertext = substr(ciphertext, 48);
-        var key = hash("sha256", password, true);
+        let ciphertext    = base64_decode(ciphertext);
+        
+        string method     = "AES-256-CBC";
+        string iv         = substr(ciphertext, 0, 16);
+        string hash       = substr(ciphertext, 16, 32);
+        string ciphertext = substr(ciphertext, 48);
+        string key        = (string) hash("sha256", password, true);
 
-        if (hash_hmac("sha256", ciphertext, key, true) !== hash) {
+        if hash_hmac("sha256", ciphertext, key, true) !== hash {
             return null;
         }
 
@@ -78,11 +78,13 @@ final class Signer
      */
     public function encode(array! data) -> array
     {
+        string data = serialize(data);
+            
         return [
-            "data" : this->encrypt(serialize(data), this->config["secret"]),
+            "data" : this->encrypt(data, this->config["secret"]),
             "token": hash_hmac(
                 "sha256",
-                serialize(data),
+                data,
                 this->config["secret"]
             )
         ];
@@ -91,7 +93,7 @@ final class Signer
     /**
      *
      */
-    public function decode(array! data) -> string|null
+    public function decode(array! data) -> array|null
     {
         let data["data"] = this->decrypt(data["data"], this->config["secret"]);
         
@@ -101,7 +103,7 @@ final class Signer
             data["data"],
             this->config["secret"]
         ) == data["token"] {
-            return unserialize(data["data"]);
+            return (array) unserialize(data["data"]);
         } else {
             return null;
         }

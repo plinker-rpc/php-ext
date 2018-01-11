@@ -52,9 +52,10 @@ final class Server
     /**
      *
      */
-    public function listen() -> void
+    final public function listen() -> void
     {
         let this->post = file_get_contents("php://input");
+        let this->post = gzinflate(this->post);
         let this->post = json_decode(this->post, true);
 
         header("Content-Type: text/plain; charset=utf-8");
@@ -110,9 +111,8 @@ final class Server
                 ]));
             }
             
-            // load and eval class (include, require not supported)
-            var src = file_get_contents(ns);
-            eval("?>" . src);
+            //
+            require(ns);
 
             //
             if !class_exists(this->post["component"]) {
@@ -144,7 +144,7 @@ final class Server
     /**
      *
      */
-    private function execute(ns, action) -> string
+    final private function execute(ns, action) -> string
     {
         var response  = null, component;
         let component = new {ns}(this->config+this->post);

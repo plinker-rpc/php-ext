@@ -61,34 +61,5 @@ final class System
     {
         return disk_total_space(path);
     }
-    
-    /**
-     * Get current user
-     *
-     * @return string
-     */
-    public function whoami() -> string
-    {
-        return shell_exec("whoami");
-    }
-    
-    /**
-     * Execute command
-     *
-     * @return string
-     */
-    public function exec(string! cmd) -> string
-    {
-        return shell_exec(cmd);
-    }
-    
-    /**
-     * Execute command
-     *
-     * @return string
-     */
-    public function test() -> string
-    {
-        return "tesing";
-    }
+
 }

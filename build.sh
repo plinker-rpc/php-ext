@@ -16,7 +16,7 @@ fi
 SRC="plinker"
 TST="../../php_inbuilt/code"
 
-function block_for_change {
+function block {
     inotifywait -q -r -e modify,move,create,delete $SRC $TST
 }
 
@@ -35,7 +35,7 @@ function run_test_script {
     time php $TST/client.php
 }
 
-function build {
+function main {
 
     clear
 
@@ -44,22 +44,22 @@ function build {
 
     # build extension
     echo "Building $SRC extension"
-    zephir build
+    zephir install
     
     sleep 1
     
     echo "Starting PHP inbuilt server"
     start_php_server
     
-    sleep 3
+    sleep 4
 
     echo "Executing test script"
     echo "---------------------"
     run_test_script
 }
 
-build
+main
 
-while block_for_change; do
-    build
+while block; do
+    main
 done
