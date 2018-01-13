@@ -140,9 +140,9 @@ PHP_METHOD(Plinker_Server, __construct) {
 PHP_METHOD(Plinker_Server, listen) {
 
 	zval _13$$3, _22$$4, _31$$6, _66$$10, _73$$11;
-	zend_bool _9, _65$$7;
+	zend_bool _9, _65$$7, _86$$13;
 	zephir_fcall_cache_entry *_17 = NULL, *_18 = NULL, *_80 = NULL;
-	zval __$true, *_SERVER, _0, _1, _2, _3, _4, _5, _6, _7, _8, _10, _11, _12, _19, _20, _21, _24, _27, _28, _29, _30, response, ns, action, _33, _34, _35, _36, _37, _38, _39, _82, _83, _87, _14$$3, _15$$3, _16$$3, _23$$4, _25$$5, _26$$5, _32$$6, _40$$7, _41$$7, _42$$7, _43$$7, _44$$7, _45$$7, _51$$7, _52$$7, _53$$7, _54$$7, _55$$7, _56$$7, _71$$7, _72$$7, _78$$7, _79$$7, _81$$7, _46$$8, _47$$8, _48$$8, _49$$8, _50$$8, _57$$9, _58$$9, _59$$9, _60$$9, _61$$9, _62$$9, _63$$9, _64$$9, _67$$10, _68$$10, _69$$10, _70$$10, _74$$11, _75$$11, _76$$11, _77$$11, _84$$13, _85$$13, _86$$13;
+	zval __$true, *_SERVER, _0, _1, _2, _3, _4, _5, _6, _7, _8, _10, _11, _12, _19, _20, _21, _24, _27, _28, _29, _30, response, ns, action, _33, _34, _35, _36, _37, _38, _39, _82, _83, _90, _14$$3, _15$$3, _16$$3, _23$$4, _25$$5, _26$$5, _32$$6, _40$$7, _41$$7, _42$$7, _43$$7, _44$$7, _45$$7, _51$$7, _52$$7, _53$$7, _54$$7, _55$$7, _56$$7, _71$$7, _72$$7, _78$$7, _79$$7, _81$$7, _46$$8, _47$$8, _48$$8, _49$$8, _50$$8, _57$$9, _58$$9, _59$$9, _60$$9, _61$$9, _62$$9, _63$$9, _64$$9, _67$$10, _68$$10, _69$$10, _70$$10, _74$$11, _75$$11, _76$$11, _77$$11, _84$$13, _85$$13, _87$$15, _88$$15, _89$$15;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -179,7 +179,7 @@ PHP_METHOD(Plinker_Server, listen) {
 	ZVAL_UNDEF(&_39);
 	ZVAL_UNDEF(&_82);
 	ZVAL_UNDEF(&_83);
-	ZVAL_UNDEF(&_87);
+	ZVAL_UNDEF(&_90);
 	ZVAL_UNDEF(&_14$$3);
 	ZVAL_UNDEF(&_15$$3);
 	ZVAL_UNDEF(&_16$$3);
@@ -227,7 +227,9 @@ PHP_METHOD(Plinker_Server, listen) {
 	ZVAL_UNDEF(&_77$$11);
 	ZVAL_UNDEF(&_84$$13);
 	ZVAL_UNDEF(&_85$$13);
-	ZVAL_UNDEF(&_86$$13);
+	ZVAL_UNDEF(&_87$$15);
+	ZVAL_UNDEF(&_88$$15);
+	ZVAL_UNDEF(&_89$$15);
 	ZVAL_UNDEF(&_13$$3);
 	ZVAL_UNDEF(&_22$$4);
 	ZVAL_UNDEF(&_31$$6);
@@ -431,16 +433,138 @@ PHP_METHOD(Plinker_Server, listen) {
 	} else {
 		zephir_read_property(&_84$$13, this_ptr, SL("post"), PH_NOISY_CC | PH_READONLY);
 		zephir_array_fetch_string(&_85$$13, &_84$$13, SL("component"), PH_NOISY | PH_READONLY, "plinker/server.zep", 178 TSRMLS_CC);
-		ZEPHIR_INIT_VAR(&_86$$13);
-		ZVAL_STRING(&_86$$13, "Component (%s) not implemented");
-		ZEPHIR_CALL_FUNCTION(&response, "sprintf", &_17, 29, &_86$$13, &_85$$13);
-		zephir_check_call_status();
+		_86$$13 = ZEPHIR_IS_EMPTY(&_85$$13);
+		if (_86$$13) {
+			_86$$13 = ZEPHIR_IS_STRING_IDENTICAL(&action, "info");
+		}
+		if (_86$$13) {
+			ZEPHIR_CALL_METHOD(&response, this_ptr, "info", NULL, 31);
+			zephir_check_call_status();
+		} else {
+			zephir_read_property(&_87$$15, this_ptr, SL("post"), PH_NOISY_CC | PH_READONLY);
+			zephir_array_fetch_string(&_88$$15, &_87$$15, SL("component"), PH_NOISY | PH_READONLY, "plinker/server.zep", 181 TSRMLS_CC);
+			ZEPHIR_INIT_VAR(&_89$$15);
+			ZVAL_STRING(&_89$$15, "Component (%s) not implemented");
+			ZEPHIR_CALL_FUNCTION(&response, "sprintf", &_17, 29, &_89$$15, &_88$$15);
+			zephir_check_call_status();
+		}
 	}
-	ZEPHIR_CALL_FUNCTION(&_87, "serialize", &_18, 15, &response);
+	ZEPHIR_CALL_FUNCTION(&_90, "serialize", &_18, 15, &response);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-	zephir_exit(&_87);
+	zephir_exit(&_90);
 	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Return info about available classes
+ *
+ * <code>
+ *  $client->info();
+ * </code>
+ *
+ * @return array
+ */
+PHP_METHOD(Plinker_Server, info) {
+
+	zval _12$$4;
+	zend_string *_5;
+	zend_ulong _4;
+	zval response, _0, reflection, key, val, method, parameter, param, _1, _2, *_3, _6$$3, _8$$3, *_10$$3, _11$$4, _13$$4, _14$$5, *_15$$5, _17$$5, _16$$6;
+	zephir_fcall_cache_entry *_7 = NULL, *_9 = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&response);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&reflection);
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&val);
+	ZVAL_UNDEF(&method);
+	ZVAL_UNDEF(&parameter);
+	ZVAL_UNDEF(&param);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_6$$3);
+	ZVAL_UNDEF(&_8$$3);
+	ZVAL_UNDEF(&_11$$4);
+	ZVAL_UNDEF(&_13$$4);
+	ZVAL_UNDEF(&_14$$5);
+	ZVAL_UNDEF(&_17$$5);
+	ZVAL_UNDEF(&_16$$6);
+	ZVAL_UNDEF(&_12$$4);
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(&response);
+	zephir_create_array(&response, 1, 0 TSRMLS_CC);
+	ZEPHIR_INIT_VAR(&_0);
+	array_init(&_0);
+	zephir_array_update_string(&response, SL("class"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_VAR(&param);
+	array_init(&param);
+	zephir_read_property(&_1, this_ptr, SL("config"), PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch_string(&_2, &_1, SL("classes"), PH_NOISY | PH_READONLY, "plinker/server.zep", 209 TSRMLS_CC);
+	zephir_is_iterable(&_2, 0, "plinker/server.zep", 226);
+	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_2), _4, _5, _3)
+	{
+		ZEPHIR_INIT_NVAR(&key);
+		if (_5 != NULL) { 
+			ZVAL_STR_COPY(&key, _5);
+		} else {
+			ZVAL_LONG(&key, _4);
+		}
+		ZEPHIR_INIT_NVAR(&val);
+		ZVAL_COPY(&val, _3);
+		ZEPHIR_OBS_NVAR(&_6$$3);
+		zephir_array_fetch_long(&_6$$3, &val, 0, PH_NOISY, "plinker/server.zep", 211 TSRMLS_CC);
+		if (zephir_require_zval(&_6$$3 TSRMLS_CC) == FAILURE) {
+			RETURN_MM_NULL();
+		}
+		ZEPHIR_INIT_NVAR(&reflection);
+		object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionclass")));
+		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", &_7, 32, &key);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(&_8$$3, &reflection, "getmethods", &_9, 33);
+		zephir_check_call_status();
+		zephir_is_iterable(&_8$$3, 0, "plinker/server.zep", 224);
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_8$$3), _10$$3)
+		{
+			ZEPHIR_INIT_NVAR(&method);
+			ZVAL_COPY(&method, _10$$3);
+			ZEPHIR_CALL_METHOD(&_11$$4, &method, "getname", NULL, 0);
+			zephir_check_call_status();
+			ZEPHIR_INIT_NVAR(&_12$$4);
+			zephir_create_array(&_12$$4, 1, 0 TSRMLS_CC);
+			ZEPHIR_INIT_NVAR(&_13$$4);
+			ZVAL_STRING(&_13$$4, "__construct");
+			zephir_array_fast_append(&_12$$4, &_13$$4);
+			if (!(zephir_fast_in_array(&_11$$4, &_12$$4 TSRMLS_CC))) {
+				ZEPHIR_INIT_NVAR(&param);
+				array_init(&param);
+				ZEPHIR_CALL_METHOD(&_14$$5, &method, "getparameters", NULL, 0);
+				zephir_check_call_status();
+				zephir_is_iterable(&_14$$5, 0, "plinker/server.zep", 221);
+				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_14$$5), _15$$5)
+				{
+					ZEPHIR_INIT_NVAR(&parameter);
+					ZVAL_COPY(&parameter, _15$$5);
+					ZEPHIR_CALL_METHOD(&_16$$6, &parameter, "getname", NULL, 0);
+					zephir_check_call_status();
+					zephir_array_append(&param, &_16$$6, PH_SEPARATE, "plinker/server.zep", 219);
+				} ZEND_HASH_FOREACH_END();
+				ZEPHIR_INIT_NVAR(&parameter);
+				ZEPHIR_CALL_METHOD(&_17$$5, &method, "getname", NULL, 0);
+				zephir_check_call_status();
+				zephir_array_update_multi(&response, &param TSRMLS_CC, SL("szsz"), 6, SL("class"), &key, SL("methods"), &_17$$5);
+			}
+		} ZEND_HASH_FOREACH_END();
+		ZEPHIR_INIT_NVAR(&method);
+	} ZEND_HASH_FOREACH_END();
+	ZEPHIR_INIT_NVAR(&val);
+	ZEPHIR_INIT_NVAR(&key);
+	RETURN_CCTOR(&response);
 
 }
 
@@ -492,7 +616,7 @@ PHP_METHOD(Plinker_Server, execute) {
 		zephir_array_fast_append(&_3$$3, &component);
 		zephir_array_fast_append(&_3$$3, action);
 		zephir_read_property(&_4$$3, this_ptr, SL("post"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch_string(&_5$$3, &_4$$3, SL("params"), PH_NOISY | PH_READONLY, "plinker/server.zep", 203 TSRMLS_CC);
+		zephir_array_fetch_string(&_5$$3, &_4$$3, SL("params"), PH_NOISY | PH_READONLY, "plinker/server.zep", 248 TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(&response);
 		ZEPHIR_CALL_USER_FUNC_ARRAY(&response, &_3$$3, &_5$$3);
 		zephir_check_call_status();
@@ -526,9 +650,9 @@ PHP_FUNCTION(g_plinker_plinker_server) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, plinker_server_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 31, &options);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 34, &options);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_0, "listen", NULL, 32);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "listen", NULL, 35);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

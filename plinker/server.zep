@@ -175,10 +175,55 @@ final class Server
             //
             let response = this->execute(ns, action);
         } else {
-            let response = sprintf(Server::ERROR_EXT_COMPONENT, this->post["component"]);
+            if empty this->post["component"] && action === "info" {
+                let response = this->info();
+            } else {
+                let response = sprintf(Server::ERROR_EXT_COMPONENT, this->post["component"]);
+            }
         }
 
         exit(serialize(response));
+    }
+    
+    /**
+     * Return info about available classes
+     *
+     * <code>
+     *  $client->info();
+     * </code>
+     *
+     * @return array
+     */
+    private function info() -> array
+    {
+        var response = [
+                "class" : []
+            ], 
+            reflection, 
+            key, 
+            val, 
+            method, 
+            parameter, 
+            param = [];
+        
+        for key, val in this->config["classes"] {
+            //
+            require(val[0]);
+            
+            let reflection = new \ReflectionClass(key);
+
+            for method in reflection->getMethods() {
+                if !in_array(method->getName(), ["__construct"]) {
+                    let param = [];
+                    for parameter in method->getParameters() {
+                        let param[] = parameter->getName();
+                    }
+                    let response["class"][key]["methods"][method->getName()] = param;
+                }
+            }
+        }
+        
+        return response;
     }
     
     /**
