@@ -76,7 +76,7 @@ PHP_METHOD(Plinker_Lib_Signer, __construct) {
 	if (zephir_array_isset_string(&_2, SL("secret"))) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "h");
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "gmdate", NULL, 16, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "gmdate", NULL, 17, &_3$$3);
 		zephir_check_call_status();
 		zephir_read_property(&_5$$3, this_ptr, SL("config"), PH_NOISY_CC | PH_READONLY);
 		zephir_array_fetch_string(&_6$$3, &_5$$3, SL("secret"), PH_NOISY | PH_READONLY, "plinker/lib/signer.zep", 37 TSRMLS_CC);
@@ -84,7 +84,7 @@ PHP_METHOD(Plinker_Lib_Signer, __construct) {
 		ZEPHIR_CONCAT_VV(&_7$$3, &_4$$3, &_6$$3);
 		ZEPHIR_INIT_NVAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "sha256");
-		ZEPHIR_CALL_FUNCTION(&_8$$3, "hash", NULL, 17, &_3$$3, &_7$$3);
+		ZEPHIR_CALL_FUNCTION(&_8$$3, "hash", NULL, 18, &_3$$3, &_7$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "secret");
@@ -153,29 +153,29 @@ PHP_METHOD(Plinker_Lib_Signer, encrypt) {
 	ZVAL_STRING(&method, "AES-256-CBC");
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "sha256");
-	ZEPHIR_CALL_FUNCTION(&_1, "hash", NULL, 17, &_0, &password, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_1, "hash", NULL, 18, &_0, &password, &__$true);
 	zephir_check_call_status();
 	zephir_get_strval(&_2, &_1);
 	ZEPHIR_CPY_WRT(&key, &_2);
 	ZVAL_LONG(&_3, 16);
-	ZEPHIR_CALL_FUNCTION(&_4, "openssl_random_pseudo_bytes", NULL, 18, &_3);
+	ZEPHIR_CALL_FUNCTION(&_4, "openssl_random_pseudo_bytes", NULL, 19, &_3);
 	zephir_check_call_status();
 	zephir_get_strval(&_5, &_4);
 	ZEPHIR_CPY_WRT(&iv, &_5);
 	ZVAL_LONG(&_3, 1);
-	ZEPHIR_CALL_FUNCTION(&_6, "openssl_encrypt", NULL, 19, &plaintext, &method, &key, &_3, &iv);
+	ZEPHIR_CALL_FUNCTION(&_6, "openssl_encrypt", NULL, 20, &plaintext, &method, &key, &_3, &iv);
 	zephir_check_call_status();
 	zephir_get_strval(&_7, &_6);
 	ZEPHIR_CPY_WRT(&ciphertext, &_7);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "sha256");
-	ZEPHIR_CALL_FUNCTION(&_8, "hash_hmac", NULL, 20, &_0, &ciphertext, &key, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_8, "hash_hmac", NULL, 21, &_0, &ciphertext, &key, &__$true);
 	zephir_check_call_status();
 	zephir_get_strval(&_9, &_8);
 	ZEPHIR_CPY_WRT(&hash, &_9);
 	ZEPHIR_INIT_VAR(&_10);
 	ZEPHIR_CONCAT_VVV(&_10, &iv, &hash, &ciphertext);
-	ZEPHIR_RETURN_CALL_FUNCTION("base64_encode", NULL, 21, &_10);
+	ZEPHIR_RETURN_CALL_FUNCTION("base64_encode", NULL, 22, &_10);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -236,7 +236,7 @@ PHP_METHOD(Plinker_Lib_Signer, decrypt) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "base64_decode", NULL, 22, &ciphertext);
+	ZEPHIR_CALL_FUNCTION(&_0, "base64_decode", NULL, 23, &ciphertext);
 	zephir_check_call_status();
 	zephir_get_strval(&ciphertext, &_0);
 	ZEPHIR_INIT_VAR(&method);
@@ -255,19 +255,19 @@ PHP_METHOD(Plinker_Lib_Signer, decrypt) {
 	zephir_get_strval(&ciphertext, &_6);
 	ZEPHIR_INIT_VAR(&_7);
 	ZVAL_STRING(&_7, "sha256");
-	ZEPHIR_CALL_FUNCTION(&_8, "hash", NULL, 17, &_7, &password, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_8, "hash", NULL, 18, &_7, &password, &__$true);
 	zephir_check_call_status();
 	zephir_get_strval(&_9, &_8);
 	ZEPHIR_CPY_WRT(&key, &_9);
 	ZEPHIR_INIT_NVAR(&_7);
 	ZVAL_STRING(&_7, "sha256");
-	ZEPHIR_CALL_FUNCTION(&_10, "hash_hmac", NULL, 20, &_7, &ciphertext, &key, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_10, "hash_hmac", NULL, 21, &_7, &ciphertext, &key, &__$true);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_IDENTICAL(&_10, &hash)) {
 		RETURN_MM_NULL();
 	}
 	ZVAL_LONG(&_11, 1);
-	ZEPHIR_RETURN_CALL_FUNCTION("openssl_decrypt", NULL, 23, &ciphertext, &method, &key, &_11, &iv);
+	ZEPHIR_RETURN_CALL_FUNCTION("openssl_decrypt", NULL, 24, &ciphertext, &method, &key, &_11, &iv);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -298,20 +298,20 @@ PHP_METHOD(Plinker_Lib_Signer, encode) {
 	ZEPHIR_OBS_COPY_OR_DUP(&data, data_param);
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "serialize", NULL, 14, &data);
+	ZEPHIR_CALL_FUNCTION(&_0, "serialize", NULL, 15, &data);
 	zephir_check_call_status();
 	zephir_get_strval(&data, &_0);
 	zephir_create_array(return_value, 2, 0 TSRMLS_CC);
 	zephir_read_property(&_2, this_ptr, SL("config"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_3, &_2, SL("secret"), PH_NOISY | PH_READONLY, "plinker/lib/signer.zep", 84 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "encrypt", NULL, 24, &data, &_3);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "encrypt", NULL, 25, &data, &_3);
 	zephir_check_call_status();
 	zephir_array_update_string(return_value, SL("data"), &_1, PH_COPY | PH_SEPARATE);
 	zephir_read_property(&_4, this_ptr, SL("config"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_5, &_4, SL("secret"), PH_NOISY | PH_READONLY, "plinker/lib/signer.zep", 89 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(&_6);
 	ZVAL_STRING(&_6, "sha256");
-	ZEPHIR_CALL_FUNCTION(&_1, "hash_hmac", NULL, 20, &_6, &data, &_5);
+	ZEPHIR_CALL_FUNCTION(&_1, "hash_hmac", NULL, 21, &_6, &data, &_5);
 	zephir_check_call_status();
 	zephir_array_update_string(return_value, SL("token"), &_1, PH_COPY | PH_SEPARATE);
 	RETURN_MM();
@@ -352,7 +352,7 @@ PHP_METHOD(Plinker_Lib_Signer, decode) {
 	zephir_array_fetch_string(&_1, &data, SL("data"), PH_NOISY | PH_READONLY, "plinker/lib/signer.zep", 98 TSRMLS_CC);
 	zephir_read_property(&_2, this_ptr, SL("config"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_3, &_2, SL("secret"), PH_NOISY | PH_READONLY, "plinker/lib/signer.zep", 98 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "decrypt", NULL, 25, &_1, &_3);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "decrypt", NULL, 26, &_1, &_3);
 	zephir_check_call_status();
 	zephir_array_update_string(&data, SL("data"), &_0, PH_COPY | PH_SEPARATE);
 	zephir_array_fetch_string(&_4, &data, SL("data"), PH_NOISY | PH_READONLY, "plinker/lib/signer.zep", 103 TSRMLS_CC);
@@ -360,7 +360,7 @@ PHP_METHOD(Plinker_Lib_Signer, decode) {
 	zephir_array_fetch_string(&_6, &_5, SL("secret"), PH_NOISY | PH_READONLY, "plinker/lib/signer.zep", 105 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(&_7);
 	ZVAL_STRING(&_7, "sha256");
-	ZEPHIR_CALL_FUNCTION(&_8, "hash_hmac", NULL, 20, &_7, &_4, &_6);
+	ZEPHIR_CALL_FUNCTION(&_8, "hash_hmac", NULL, 21, &_7, &_4, &_6);
 	zephir_check_call_status();
 	zephir_array_fetch_string(&_9, &data, SL("token"), PH_NOISY | PH_READONLY, "plinker/lib/signer.zep", 105 TSRMLS_CC);
 	if (ZEPHIR_IS_EQUAL(&_8, &_9)) {

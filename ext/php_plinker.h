@@ -10,12 +10,12 @@
 
 #include "kernel/globals.h"
 
-#define PHP_PLINKER_NAME        "plinker"
+#define PHP_PLINKER_NAME        "Plinker RPC"
 #define PHP_PLINKER_VERSION     "0.0.1"
 #define PHP_PLINKER_EXTNAME     "plinker"
-#define PHP_PLINKER_AUTHOR      ""
+#define PHP_PLINKER_AUTHOR      "Lawrence Cherone"
 #define PHP_PLINKER_ZEPVERSION  "0.10.6-f58caac89e"
-#define PHP_PLINKER_DESCRIPTION ""
+#define PHP_PLINKER_DESCRIPTION "Plinker PHP RPC client/server makes it really easy to link and execute PHP component classes on remote systems, while maintaining the feel of a local method call."
 
 
 

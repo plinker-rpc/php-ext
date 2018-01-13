@@ -140,8 +140,22 @@ static PHP_GSHUTDOWN_FUNCTION(plinker)
 
 }
 
+PHP_FUNCTION(g_plinker_plinker_client);
+ZEND_BEGIN_ARG_INFO_EX(arginfo_g_plinker_plinker_client, 0, 0, 2)
+	ZEND_ARG_INFO(0, url)
+	ZEND_ARG_INFO(0, secret)
+	ZEND_ARG_ARRAY_INFO(0, options, 1)
+ZEND_END_ARG_INFO()
+
+PHP_FUNCTION(g_plinker_plinker_server);
+ZEND_BEGIN_ARG_INFO_EX(arginfo_g_plinker_plinker_server, 0, 0, 0)
+	ZEND_ARG_ARRAY_INFO(0, options, 1)
+ZEND_END_ARG_INFO()
+
 
 zend_function_entry php_plinker_functions[] = {
+ZEND_NAMED_FE(plinker_client, ZEND_FN(g_plinker_plinker_client), arginfo_g_plinker_plinker_client)
+ZEND_NAMED_FE(plinker_server, ZEND_FN(g_plinker_plinker_server), arginfo_g_plinker_plinker_server)
 ZEND_FE_END
 
 };

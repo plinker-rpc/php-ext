@@ -26,22 +26,41 @@ ZEPHIR_INIT_CLASS(Plinker_Client) {
 
 	ZEPHIR_REGISTER_CLASS(Plinker, Client, plinker, client, plinker_client_method_entry, ZEND_ACC_FINAL_CLASS);
 
+	/**
+	 * @var
+	 */
 	zend_declare_property_null(plinker_client_ce, SL("component"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
+	/**
+	 * @var
+	 */
 	zend_declare_property_null(plinker_client_ce, SL("response"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
-	zend_declare_property_null(plinker_client_ce, SL("config"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	/**
+	 * @var
+	 */
+	zend_declare_property_null(plinker_client_ce, SL("config"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
-	zend_declare_property_null(plinker_client_ce, SL("curl"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	/**
+	 * @var
+	 */
+	zend_declare_property_null(plinker_client_ce, SL("curl"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
-	zend_declare_property_null(plinker_client_ce, SL("signer"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	/**
+	 * @var
+	 */
+	zend_declare_property_null(plinker_client_ce, SL("signer"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	return SUCCESS;
 
 }
 
 /**
+ * Class construct
  *
+ * @param  string server  - server enpoint url
+ * @param  array  config  - config array which holds object configuration
+ * @return void
  */
 PHP_METHOD(Plinker_Client, __construct) {
 
@@ -94,7 +113,7 @@ PHP_METHOD(Plinker_Client, __construct) {
 	_3 = !(zephir_array_isset_string(&_2, SL("timeout")));
 	if (!(_3)) {
 		zephir_read_property(&_4, this_ptr, SL("config"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch_string(&_5, &_4, SL("timeout"), PH_NOISY | PH_READONLY, "plinker/client.zep", 50 TSRMLS_CC);
+		zephir_array_fetch_string(&_5, &_4, SL("timeout"), PH_NOISY | PH_READONLY, "plinker/client.zep", 74 TSRMLS_CC);
 		_3 = !(zephir_is_numeric(&_5));
 	}
 	if (_3) {
@@ -109,7 +128,10 @@ PHP_METHOD(Plinker_Client, __construct) {
 }
 
 /**
+ * Magic getter method, which sets component
  *
+ * @param  string method  - component name
+ * @return <Plinker\Client>
  */
 PHP_METHOD(Plinker_Client, __get) {
 
@@ -140,10 +162,10 @@ PHP_METHOD(Plinker_Client, __get) {
 }
 
 /**
- * Magic caller
+ * Magic caller method, which calls component
  *
- * @param string $action
- * @param array  $params
+ * @param string action
+ * @param array  params
  */
 PHP_METHOD(Plinker_Client, __call) {
 
@@ -192,11 +214,11 @@ PHP_METHOD(Plinker_Client, __call) {
 
 
 	if (!(zephir_is_scalar(&action))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(zend_exception_get_default(TSRMLS_C), "Method name has no scalar value", "plinker/client.zep", 74);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(zend_exception_get_default(TSRMLS_C), "Method name has no scalar value", "plinker/client.zep", 101);
 		return;
 	}
 	if (!(Z_TYPE_P(&params) == IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(zend_exception_get_default(TSRMLS_C), "Params must be given as array", "plinker/client.zep", 78);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(zend_exception_get_default(TSRMLS_C), "Params must be given as array", "plinker/client.zep", 105);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&_0);
@@ -237,10 +259,10 @@ PHP_METHOD(Plinker_Client, __call) {
 	zephir_check_call_status();
 	zephir_read_property(&_10, this_ptr, SL("curl"), PH_NOISY_CC | PH_READONLY);
 	zephir_read_property(&_12, this_ptr, SL("config"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_13, &_12, SL("server"), PH_NOISY | PH_READONLY, "plinker/client.zep", 104 TSRMLS_CC);
+	zephir_array_fetch_string(&_13, &_12, SL("server"), PH_NOISY | PH_READONLY, "plinker/client.zep", 131 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(&_14);
 	zephir_create_array(&_14, 1, 0 TSRMLS_CC);
-	zephir_array_fetch_string(&_15, &payload, SL("token"), PH_NOISY | PH_READONLY, "plinker/client.zep", 106 TSRMLS_CC);
+	zephir_array_fetch_string(&_15, &payload, SL("token"), PH_NOISY | PH_READONLY, "plinker/client.zep", 133 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(&_16);
 	ZEPHIR_CONCAT_SV(&_16, "PLINKER: ", &_15);
 	zephir_array_fast_append(&_14, &_16);
@@ -249,6 +271,60 @@ PHP_METHOD(Plinker_Client, __call) {
 	zephir_update_property_zval(this_ptr, SL("response"), &_11);
 	zephir_read_property(&_17, this_ptr, SL("response"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_FUNCTION("unserialize", NULL, 4, &_17);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
+PHP_FUNCTION(g_plinker_plinker_client) {
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval options, _0;
+	zval *url_param = NULL, *secret_param = NULL, *options_param = NULL, config;
+	zval url, secret;
+		ZVAL_UNDEF(&url);
+	ZVAL_UNDEF(&secret);
+	ZVAL_UNDEF(&config);
+	ZVAL_UNDEF(&options);
+	ZVAL_UNDEF(&_0);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 1, &url_param, &secret_param, &options_param);
+
+	if (UNEXPECTED(Z_TYPE_P(url_param) != IS_STRING && Z_TYPE_P(url_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'url' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(url_param) == IS_STRING)) {
+		zephir_get_strval(&url, url_param);
+	} else {
+		ZEPHIR_INIT_VAR(&url);
+		ZVAL_EMPTY_STRING(&url);
+	}
+	if (UNEXPECTED(Z_TYPE_P(secret_param) != IS_STRING && Z_TYPE_P(secret_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'secret' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(secret_param) == IS_STRING)) {
+		zephir_get_strval(&secret, secret_param);
+	} else {
+		ZEPHIR_INIT_VAR(&secret);
+		ZVAL_EMPTY_STRING(&secret);
+	}
+	if (!options_param) {
+		ZEPHIR_INIT_VAR(&options);
+		array_init(&options);
+	} else {
+	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+	}
+
+
+	ZEPHIR_INIT_VAR(&_0);
+	zephir_create_array(&_0, 1, 0 TSRMLS_CC);
+	zephir_array_update_string(&_0, SL("secret"), &secret, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_VAR(&config);
+	zephir_fast_array_merge(&config, &_0, &options TSRMLS_CC);
+	object_init_ex(return_value, plinker_client_ce);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 5, &url, &config);
 	zephir_check_call_status();
 	RETURN_MM();
 

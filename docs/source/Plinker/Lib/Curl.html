@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta content="Plinker RPC API doc" name="description">
+    <title>
+                    Plinker RPC API Documentation
+            </title>
+    <link rel="stylesheet" type="text/css" href="../../../asset/static/prettify.css" />
+
+<script src="../../../asset/static/prettify.js"></script>
+<script src="../../../asset/api_definition.js"></script>
+
+
+                        <link rel="stylesheet" type="text/css" href="../../../asset/static/prettify.css" />
+                    <link rel="stylesheet" type="text/css" href="../../../asset/static/zephir-theme.css" />
+            
+    
+
+                        <script src="../../../asset/static/prettify.js"></script>
+                                    <script src="../../../asset/api_definition.js"></script>
+                    <script src="../../../asset/static/jquery.min.js"></script>
+                    <script src="../../../asset/static/zephir-doc.js"></script>
+                <script>var ZepCurrentPath = '../../../'</script>
+    </head>
+ <body onload="prettyPrint()">
+        <div id="top-bar">
+            <div id="top-left">
+                                    Plinker RPC Documentation <span class="version">v0.0.1</span>
+                            </div>
+            <div id="top-right">
+            </div>
+        </div>
+        <div id="body">
+            <div id="body-left">
+                <div class="header-search">
+                    <input class="search-box" placeholder="Search for a class or namespace " type="text" />
+                    <div id="menu-wrapper">
+                    </div>
+                </div>
+            </div>
+            <div id="body-right">
+                <div class="content">
+                    
+<div class="breadcrumb">
+    
+    <ul>
+        
+        <li><a href="../../../index.html">Home</a></li>
+        
+                <li><a href="../../../classes.html">Classes</a></li>
+                <li><a href="../../../class/Plinker/Lib/Curl.html">Plinker\Lib\Curl</a></li>
+                <li><a >Source</a></li>
+                
+    </ul>
+    
+</div>
+<div class="class-header source clearfix">
+    
+    <div class="access-buttons">
+        <a class="zep-button" href="../../../class/Plinker/Lib/Curl.html">Class</a>
+
+                <a class="zep-button" href="https://github.com/plinker-rpc/php-ext/tree/master/plinker/lib/curl.zep">Github</a>
+            </div>
+    
+    <div class="class-full-name">
+        
+        <span class="class-type">Class</span>
+        
+                <span class="namespace-piece">
+            <a href="../../../namespace/Plinker.html">Plinker</a>
+        </span>
+                <span class="namespace-piece">
+            <a href="../../../namespace/Plinker/Lib.html">Lib</a>
+        </span>
+                <h1 class="class-name">Curl</h1>
+    </div>
+    
+</div>
+
+
+<pre class="zephir-source-file prettyprint linenums">/*
+ +------------------------------------------------------------------------+
+ | Plinker PHP Extension                                                  |
+ +------------------------------------------------------------------------+
+ | Copyright (c)2017-2017 (https://github.com/plinker-rpc/php-ext)        |
+ +------------------------------------------------------------------------+
+ | This source file is subject to GNU General Public License v2.0 License |
+ | that is bundled with this package in the file LICENSE.                 |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@cherone.co.uk so we can send you a copy immediately.        |
+ +------------------------------------------------------------------------+
+ | Authors: Lawrence Cherone <lawrence@cherone.co.uk>                     |
+ +------------------------------------------------------------------------+
+ */
+
+namespace Plinker\Lib;
+
+final class Curl
+{
+    private config;
+    private options;
+
+    /**
+     *
+     */
+    public function __construct(array! config = []) -> void
+    {
+        //
+        let this->config = config;
+    }
+
+    final private function setOptions() -> void
+    {
+        //
+        let this->options = [
+            CURLOPT_FAILONERROR    : true,
+            CURLOPT_FOLLOWLOCATION : true,
+            CURLOPT_RETURNTRANSFER : true,
+            CURLOPT_SSL_VERIFYPEER : false,
+            CURLOPT_SSL_VERIFYHOST : false,
+            CURLOPT_ENCODING       : "gzip",
+            CURLOPT_HTTPHEADER     : [
+                "Content-Type: application/json"
+            ]
+        ];
+    } 
+
+    /**
+     *  POST
+     */
+    public function post(string! url, var parameters = null, array! headers = []) -> string
+    {
+        var curl, body;
+                
+        //
+        this->setOptions();
+
+        //
+        if is_array(parameters) {
+            let parameters = json_encode(parameters);
+            let parameters = gzdeflate(parameters, 9);
+        }
+
+        //
+        let curl = curl_init(url);
+
+        //
+        let this->options[CURLOPT_POST] = true;
+        let this->options[CURLOPT_POSTFIELDS] = parameters;
+
+        //
+        if !empty headers {
+            var header; for header in headers {
+                let this->options[CURLOPT_HTTPHEADER][] = header;
+            } 
+        }
+
+        //
+        curl_setopt_array(curl, this->options);
+
+        //
+        let body = curl_exec(curl);
+        
+        if curl_error(curl) {
+            return serialize([
+                "url"   : url,
+                "error" : curl_error(curl),
+                "code"  : curl_getinfo(curl, CURLINFO_HTTP_CODE)
+            ]);
+        }
+
+        //
+        curl_close(curl);
+
+        //
+        return body;
+    }
+
+}</pre>                </div>
+            </div>
+        </div>
+    </body>
+</html>

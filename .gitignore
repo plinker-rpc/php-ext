@@ -1,1 +1,4 @@
 nohup.out
+compile.log
+compile-errors.log
+.temp/

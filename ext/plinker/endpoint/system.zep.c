@@ -99,9 +99,9 @@ PHP_METHOD(Plinker_Endpoint_System, disk_space) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&ds, "disk_total_space", NULL, 5, &path);
+	ZEPHIR_CALL_FUNCTION(&ds, "disk_total_space", NULL, 6, &path);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&df, "disk_free_space", NULL, 6, &path);
+	ZEPHIR_CALL_FUNCTION(&df, "disk_free_space", NULL, 7, &path);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	_1 = ZEPHIR_GT_LONG(&df, 0);
@@ -159,7 +159,7 @@ PHP_METHOD(Plinker_Endpoint_System, total_disk_space) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("disk_total_space", NULL, 5, &path);
+	ZEPHIR_RETURN_CALL_FUNCTION("disk_total_space", NULL, 6, &path);
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -51,7 +51,7 @@ function main {
     echo "Starting PHP inbuilt server"
     start_php_server
     
-    sleep 4
+    sleep 5
 
     echo "Executing test script"
     echo "---------------------"

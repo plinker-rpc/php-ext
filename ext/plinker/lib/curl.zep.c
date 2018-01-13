@@ -152,18 +152,18 @@ PHP_METHOD(Plinker_Lib_Curl, post) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setoptions", NULL, 7);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setoptions", NULL, 8);
 	zephir_check_call_status();
 	if (Z_TYPE_P(parameters) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		zephir_json_encode(&_0$$3, parameters, 0 );
 		ZEPHIR_CPY_WRT(parameters, &_0$$3);
 		ZVAL_LONG(&_1$$3, 9);
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "gzdeflate", NULL, 8, parameters, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "gzdeflate", NULL, 9, parameters, &_1$$3);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(parameters, &_2$$3);
 	}
-	ZEPHIR_CALL_FUNCTION(&curl, "curl_init", NULL, 9, &url);
+	ZEPHIR_CALL_FUNCTION(&curl, "curl_init", NULL, 10, &url);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_LONG(&_3, 47);
@@ -182,28 +182,28 @@ PHP_METHOD(Plinker_Lib_Curl, post) {
 		ZEPHIR_INIT_NVAR(&header$$4);
 	}
 	zephir_read_property(&_6, this_ptr, SL("options"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(NULL, "curl_setopt_array", NULL, 10, &curl, &_6);
+	ZEPHIR_CALL_FUNCTION(NULL, "curl_setopt_array", NULL, 11, &curl, &_6);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&body, "curl_exec", NULL, 11, &curl);
+	ZEPHIR_CALL_FUNCTION(&body, "curl_exec", NULL, 12, &curl);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_7, "curl_error", &_8, 12, &curl);
+	ZEPHIR_CALL_FUNCTION(&_7, "curl_error", &_8, 13, &curl);
 	zephir_check_call_status();
 	if (zephir_is_true(&_7)) {
 		ZEPHIR_INIT_VAR(&_9$$6);
 		zephir_create_array(&_9$$6, 3, 0 TSRMLS_CC);
 		zephir_array_update_string(&_9$$6, SL("url"), &url, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(&_10$$6, "curl_error", &_8, 12, &curl);
+		ZEPHIR_CALL_FUNCTION(&_10$$6, "curl_error", &_8, 13, &curl);
 		zephir_check_call_status();
 		zephir_array_update_string(&_9$$6, SL("error"), &_10$$6, PH_COPY | PH_SEPARATE);
 		ZVAL_LONG(&_11$$6, 2097154);
-		ZEPHIR_CALL_FUNCTION(&_10$$6, "curl_getinfo", NULL, 13, &curl, &_11$$6);
+		ZEPHIR_CALL_FUNCTION(&_10$$6, "curl_getinfo", NULL, 14, &curl, &_11$$6);
 		zephir_check_call_status();
 		zephir_array_update_string(&_9$$6, SL("code"), &_10$$6, PH_COPY | PH_SEPARATE);
-		ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 14, &_9$$6);
+		ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 15, &_9$$6);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_FUNCTION(NULL, "curl_close", NULL, 15, &curl);
+	ZEPHIR_CALL_FUNCTION(NULL, "curl_close", NULL, 16, &curl);
 	zephir_check_call_status();
 	RETURN_CCTOR(&body);
 

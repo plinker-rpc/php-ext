@@ -1,14 +1,27 @@
 {
+    "namespace": "plinker",
+    "name": "Plinker RPC",
+    "description": "Plinker PHP RPC client/server makes it really easy to link and execute PHP component classes on remote systems, while maintaining the feel of a local method call.",
+    "author": "Lawrence Cherone",
+    "version": "0.0.1",
+    "verbose": false,
+    "requires": {
+        "extensions": []
+    },
+    "package-dependencies": {
+        "openssl": "*",
+        "libcurl": "*"
+    },
     "stubs": {
         "path": "ide\/%version%\/%namespace%\/",
         "stubs-run-after-generate": false
     },
     "api": {
-        "path": "doc\/%version%",
+        "path": "docs\/",
         "theme": {
             "name": "zephir",
             "options": {
-                "github": null,
+                "github": "https://github.com/plinker-rpc/php-ext",
                 "analytics": null,
                 "main_color": "#3E6496",
                 "link_color": "#3E6496",
@@ -51,14 +64,5 @@
         "call-gatherer-pass": true,
         "check-invalid-reads": false,
         "internal-call-transformation": false
-    },
-    "namespace": "plinker",
-    "name": "plinker",
-    "description": "",
-    "author": "",
-    "version": "0.0.1",
-    "verbose": false,
-    "requires": {
-        "extensions": []
     }
 }
